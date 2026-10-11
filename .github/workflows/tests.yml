@@ -1,0 +1,56 @@
+name: CI — QubitShield Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Run Tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Verify Qiskit installation
+        run: |
+          python -c "import qiskit; print('Qiskit version:', qiskit.__version__)"
+          python -c "import qiskit_aer; print('Qiskit Aer installed')"
+
+      - name: Run test suite
+        run: |
+          python -m pytest tests/ -v --tb=short --cov=src/qubitshield --cov-report=term-missing
+
+      - name: Verify app imports without error
+        run: |
+          python -c "
+          import sys
+          sys.path.insert(0, 'src')
+          import qubitshield
+          from qubitshield import analytics, circuits, syndrome, recovery
+          from qubitshield.analytics import theoretical_encoded_failure, theoretical_unencoded_failure
+          print('All imports successful')
+          print('Encoded failure at p=0.1:', theoretical_encoded_failure(0.1))
+          "
+
+      - name: Run benchmark reproduction script
+        run: |
+          python examples/reproduce_benchmark.py --n-trials 500 --n-points 10 --seed 42

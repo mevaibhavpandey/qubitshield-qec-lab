@@ -1,0 +1,54 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+*.log
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Environment variables / secrets — NEVER commit these
+.env
+.env.*
+secrets.json
+*.key
+*.pem
+*.p12
+
+# Streamlit cache
+.streamlit/
+__streamlit__/
+
+# macOS / Windows metadata
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Large data files
+*.csv.gz
+*.parquet
+results_cache/

@@ -1,0 +1,65 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qubitshield"
+version = "1.0.0"
+description = "Interactive Quantum Error-Correction & Reliability Lab — 3-qubit bit-flip repetition code"
+authors = [
+    { name = "Vaibhav Pandey" }
+]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+keywords = [
+    "quantum-computing",
+    "quantum-error-correction",
+    "qiskit",
+    "repetition-code",
+    "syndrome-decoding",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+    "qiskit==1.4.2",
+    "qiskit-aer==0.15.1",
+    "streamlit>=1.40",
+    "plotly>=6.0",
+    "numpy>=1.26",
+    "pandas>=2.0",
+    "scipy>=1.12",
+    "matplotlib>=3.8",
+    "pylatexenc>=2.10",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=9.0",
+    "pytest-cov>=7.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
+filterwarnings = [
+    "ignore::DeprecationWarning:qiskit",
+    "ignore::PendingDeprecationWarning",
+]
+
+[tool.coverage.run]
+source = ["src/qubitshield"]
+omit = ["tests/*", "examples/*"]
